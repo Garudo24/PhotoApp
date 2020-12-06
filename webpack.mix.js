@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.browserSync({
-    proxy: '0.0.0.0:9000',
+    proxy: 'http://localhost:9000/',
     open: false
 })
     .js('resources/js/app.js', 'public/js')
