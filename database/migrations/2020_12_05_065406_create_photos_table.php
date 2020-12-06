@@ -15,7 +15,7 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->string('id', 255)->primary()->nullable(false);
-            $table->integer('user_id')->unique()->nullable(false)->foreign()->regerences('id')->on('users');
+            $table->integer('user_id')->unique()->nullable(false)->foreign()->references('id')->on('users');
             $table->string('filename', 255)->nullable(false);
             $table->timestamps();
         });
