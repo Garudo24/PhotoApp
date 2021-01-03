@@ -6,13 +6,13 @@ import Login from './pages/Login.vue'
 
 Vue.use(VueRouter)
 
-const routed = [
+const routes = [
     {
         path: '/',
         component: PhotoList
     },
     {
-        path: '/',
+        path: '/login',
         component: Login
     }
 ]
