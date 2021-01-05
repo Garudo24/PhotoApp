@@ -4,6 +4,9 @@ namespace Tests\Http\Controllers\Auth;
 
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
@@ -11,11 +14,13 @@ class LoginControllerTest extends TestCase
     use DatabaseTransactions;
 
     public $user;
+    public $password;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
+        $this->password = 'pass1234@';
+        $this->user = factory(User::class)->create(['password' => Hash::make($this->password)]);
     }
 
     /** @test */
@@ -23,7 +28,7 @@ class LoginControllerTest extends TestCase
     {
         $this->json('POST', route('login'), [
             'email' => $this->user->email,
-            'password' => $this->user->password,
+            'password' => $this->password,
         ]);
 
         $this->assertAuthenticatedAs($this->user);
@@ -34,7 +39,7 @@ class LoginControllerTest extends TestCase
     {
         $response = $this->json('POST', route('login'), [
             'email' => $this->user->email,
-            'password' => $this->user->password,
+            'password' => $this->password,
         ]);
 
         $response->assertStatus(200)
