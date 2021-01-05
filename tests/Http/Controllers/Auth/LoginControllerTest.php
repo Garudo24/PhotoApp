@@ -47,12 +47,16 @@ class LoginControllerTest extends TestCase
     /** @test */
     public function 認証済みユーザーはログアウトできる()
     {
-        $this->json('POST', route('logout'))->assertGuest();
+        $this->actingAs($this->user)->json('POST', route('logout'));
+
+        $this->assertGuest();
     }
 
     /** @test */
     public function ログアウト後ステータス200が返る()
     {
-        $this->json('POST', route('login'))->assertSuccessful();
+        $response = $this->actingAs($this->user)->json('POST', route('login'));
+
+        $response->assertSuccessful();
     }
 }
