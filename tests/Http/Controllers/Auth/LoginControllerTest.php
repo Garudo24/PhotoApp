@@ -55,7 +55,7 @@ class LoginControllerTest extends TestCase
     /** @test */
     public function ログアウト後ステータス200が返る()
     {
-        $response = $this->actingAs($this->user)->json('POST', route('login'));
+        $response = $this->actingAs($this->user)->json('POST', route('logout'));
 
         $response->assertSuccessful();
     }
