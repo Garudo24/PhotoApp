@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar">
-    <RouterLink class="navbar__brand" to="/"> Vuesplash </RouterLink>
+    <RouterLink class="navbar__brand" to="/"> PhotoSharing </RouterLink>
     <div class="navbar__menu">
       <div class="navbar__item">
         <button class="button">
