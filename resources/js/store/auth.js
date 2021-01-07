@@ -1,3 +1,5 @@
+import Axios from "axios"
+
 const state = {
     user: null
 }
@@ -10,7 +12,12 @@ const mutations = {
     }
 }
 
-const actions = {}
+const actions = {
+    async register(context, data) {
+        const response = await axios.post('/register', data)
+        context.commit('setUser', response.data)
+    }
+}
 
 export default {
     namespaced: true,
