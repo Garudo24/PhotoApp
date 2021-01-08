@@ -93,8 +93,10 @@ export default {
     };
   },
   methods: {
-    login() {
-      console.log(this.loginForm);
+    async login() {
+      await this.$store.dispatch("auth/login", this.loginForm);
+      // トップページに移動する
+      this.$router.push("/");
     },
     async register() {
       await this.$store.dispatch("auth/register", this.registerForm);
