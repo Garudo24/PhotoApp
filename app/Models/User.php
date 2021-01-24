@@ -35,4 +35,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * リレーション photosテーブル
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function photos()
+    {
+        return $this->hasMany('App\Photo');
+    }
 }
