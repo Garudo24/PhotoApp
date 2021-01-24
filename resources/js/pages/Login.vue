@@ -113,11 +113,15 @@ export default {
     },
     async register() {
       await this.$store.dispatch("auth/register", this.registerForm);
-      // トップページに移動する
-      this.$router.push("/");
+
+      if (this.apiStatus) {
+        // トップページに移動する
+        this.$router.push("/");
+      }
     },
     clearError() {
       this.$store.commit("auth/setLoginErrorMessages", null);
+      this.$store.commit("auth/setRegisterErrorMessages", null);
     },
   },
   created() {
@@ -127,6 +131,7 @@ export default {
     ...mapState({
       apiStatus: (state) => state.auth.apiStatus,
       loginErrors: (state) => state.auth.loginErrorMessages,
+      registerErrors: (state) => state.auth.registerErrorMessages,
     }),
   },
 };
