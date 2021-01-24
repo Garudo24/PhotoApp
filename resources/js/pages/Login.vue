@@ -47,6 +47,17 @@
     </div>
     <div class="panel" v-show="tab === 2">
       <form class="form" @submit.prevent="register">
+        <div v-if="registerErrors" class="errors">
+          <ul v-if="registerErrors.name">
+            <li v-for="msg in registerErrors.name" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="registerErrors.email">
+            <li v-for="msg in registerErrors.email" :key="msg">{{ msg }}</li>
+          </ul>
+          <ul v-if="registerErrors.password">
+            <li v-for="msg in registerErrors.password" :key="msg">{{ msg }}</li>
+          </ul>
+        </div>
         <label for="username">Name</label>
         <input
           type="text"
