@@ -31,30 +31,4 @@ class PhotoControllerTest extends TestCase
 
         $response->assertStatus(201);
     }
-
-    /** @test */
-    public function should_ファイルをアップロードできる()
-    {
-        Storage::fake('s3');
-
-        $response = $this->actingAs($this->user)
-            ->json('POST', route('photo.create'), [
-                'photo' => UploadedFile::fake()->image('photo.jpg')
-            ]);
-
-        Storage::cloud()->assertExists(Photo::first()->filename);
-    }
-
-    /** @test */
-    public function should_DBにある写真のIDが12桁のランダムな文字列である()
-    {
-        Storage::fake('s3');
-
-        $response = $this->actingAs($this->user)
-            ->json('POST', route('photo.create'), [
-                'photo' => UploadedFile::fake()->image('photo.jpg')
-            ]);
-
-        $this->assertRegExp('/^[0-9a-zA-Z-_]{12}$/', Photo::first()->id);
-    }
 }
