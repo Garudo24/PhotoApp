@@ -3,6 +3,7 @@
 namespace Tests\UseCases;
 
 use App\Models\Photo;
+use App\Models\User;
 use App\UseCases\PhotoPostingUseCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
@@ -28,14 +29,18 @@ class PhotoPostingUseCaseTest extends TestCase
     /** @test */
     public function 渡されたイメージファイルをS3にアップロードできる()
     {
-        $this->usecase->execute($this->image_file);
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        $this->usecase->execute($user->id, $this->image_file);
         Storage::cloud()->assertExists($this->image_file->name);
     }
 
     /** @test */
     public function photoテーブルにアップロードした画像情報を登録できる()
     {
-        $this->usecase->execute($this->image_file);
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        $this->usecase->execute($user->id, $this->image_file);
         $this->assertCount(1, Photo::get());
     }
 }
