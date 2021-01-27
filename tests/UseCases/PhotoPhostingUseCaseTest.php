@@ -43,4 +43,13 @@ class PhotoPostingUseCaseTest extends TestCase
         $this->usecase->execute($user->id, $this->image_file);
         $this->assertCount(1, Photo::get());
     }
+
+    /** @test */
+    public function photoテーブルに保存されるIDが12桁のランダムな文字列である()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        $this->usecase->execute($user->id, $this->image_file);
+        $this->assertRegExp('/^[0-9a-zA-Z-_]{12}$/', Photo::first()->id);
+    }
 }
