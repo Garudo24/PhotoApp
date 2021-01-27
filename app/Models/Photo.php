@@ -8,6 +8,10 @@ use Illuminate\Support\Arr;
 class Photo extends Model
 {
     protected $keyType = 'string';
+    protected $fillable = [
+        'user_id',
+        'filename',
+    ];
 
     const ID_LENGTH = 12;
 
