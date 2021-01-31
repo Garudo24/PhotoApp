@@ -14,8 +14,14 @@
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/{any?}', fn () => view('index'))->where('any', '.+');
-Route::post('/register', 'Auth\RegisterController@register')->name('register');
-Route::post('/login', 'Auth\LoginController@login')->name('login');
-Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-// apiに寄せていいかも
-Route::get('/user', fn () => Auth::user())->name('user');
+
+Route::group(['middleware' => 'guest'], function () {
+    Route::post('/register', 'Auth\RegisterController@register')->name('register');
+    Route::post('/login', 'Auth\LoginController@login')->name('login');
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/user', fn () => Auth::user())->name('user');
+    Route::post('/photos', 'PhotoController@create')->name('photo.create');
+    Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+});
