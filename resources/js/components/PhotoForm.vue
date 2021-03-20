@@ -31,11 +31,13 @@ export default {
     onFileChange(event) {
       // 何も選択されていなかったら処理中断
       if (event.target.files.length === 0) {
+        this.reset();
         return false;
       }
 
       // ファイルが画像ではなかったら処理中断
       if (!event.target.files[0].type.match("image.*")) {
+        this.reset();
         return false;
       }
 
@@ -50,6 +52,11 @@ export default {
       // ファイルを読み込む
       // 読み込まれたファイルはデータURL形式で受け取れる
       reader.readAsDataURL(event.target.files[0]);
+    },
+    // 入力欄の値とプレビュー表示をクリアするメソッド
+    reset() {
+      this.preview = "";
+      this.$el.querySelector('input[type="file"]').value = null;
     },
   },
 };
