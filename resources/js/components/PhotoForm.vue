@@ -1,7 +1,10 @@
 <template>
   <div v-show="value" class="photo-form">
     <h2 class="title">Submit a photo</h2>
-    <form class="form" @submit.prevent="submit">
+    <div v-show="loading" class="panel">
+      <Loader>Sending your photo...</Loader>
+    </div>
+    <form v-show="!loading" class="form" @submit.prevent="submit">
       <div class="errors" v-if="errors">
         <ul v-if="errors.photo">
           <li v-for="msg in errors.photo" :key="msg">{{ msg }}</li>
@@ -20,8 +23,12 @@
 
 <script>
 import { CREATED, UNPROCESSABLE_ENTITY } from "../util";
+import Loader from "./Loader.vue";
 
 export default {
+  components: {
+    Loader,
+  },
   props: {
     value: {
       type: Boolean,
@@ -30,6 +37,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       preview: null,
       photo: null,
       errors: null,
@@ -70,9 +78,13 @@ export default {
       this.$el.querySelector('input[type="file"]').value = null;
     },
     async submit() {
+      this.loading = true;
+
       const formData = new FormData();
       formData.append("photo", this.photo);
       const response = await axios.post("/api/photos", formData);
+
+      this.loading = false;
 
       if (response.status === UNPROCESSABLE_ENTITY) {
         this.errors = response.data.errors;
