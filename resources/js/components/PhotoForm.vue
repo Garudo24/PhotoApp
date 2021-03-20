@@ -44,15 +44,11 @@ export default {
 
       // ファイルを読み込み終わったタイミングで実行する処理
       reader.onload = (e) => {
-        // previewに読み込み結果（データURL）を代入する
-        // previewに値が入ると<output>につけたv-ifがtrueと判定される
-        // また<output>内部の<img>のsrc属性はpreviewの値を参照しているので
-        // 結果として画像が表示される
         this.preview = e.target.result;
       };
 
       // ファイルを読み込む
-      // 読み込まれたファイルはデータURL形式で受け取れる（上記onload参照）
+      // 読み込まれたファイルはデータURL形式で受け取れる
       reader.readAsDataURL(event.target.files[0]);
     },
   },
