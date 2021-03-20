@@ -3,7 +3,7 @@
     <RouterLink class="navbar__brand" to="/"> PhotoSharing </RouterLink>
     <div class="navbar__menu">
       <div v-if="isLogin" class="navbar__item">
-        <button class="button">
+        <button class="button" @click="showForm = !showForm">
           <i class="icon ion-md-add"></i>
           Submit a photo
         </button>
@@ -17,6 +17,7 @@
         </RouterLink>
       </div>
     </div>
+    <PhotoForm v-model="showForm" />
   </nav>
 </template>
 
