@@ -21,7 +21,16 @@
 </template>
 
 <script>
+import PhotoForm from "./PhotoForm.vue";
 export default {
+  components: {
+    PhotoForm,
+  },
+  data() {
+    return {
+      showForm: false,
+    };
+  },
   computed: {
     isLogin() {
       return this.$store.getters["auth/check"];
