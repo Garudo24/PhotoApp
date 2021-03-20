@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import PhotoList from './pages/PhotoList.vue'
+import PhotoDetail from './pages/PhotoDetail.vue'
 import Login from './pages/Login.vue'
 import store from './store'
 import SystemError from './pages/errors/System.vue'
@@ -12,6 +13,11 @@ const routes = [
     {
         path: '/',
         component: PhotoList
+    },
+    {
+        path: '/photos/:id',
+        component: PhotoDetail,
+        props: true
     },
     {
         path: '/login',
