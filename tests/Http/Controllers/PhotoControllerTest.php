@@ -46,8 +46,7 @@ class PhotoControllerTest extends TestCase
     {
         factory(Photo::class, 5)->create();
 
-        $response = $this->actingAs($this->user)
-            ->json('GET', route('photo.index'));
+        $response = $this->json('GET', route('photo.index'));
 
         $response->assertJsonCount(5);
     }
