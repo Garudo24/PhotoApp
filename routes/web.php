@@ -23,5 +23,6 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/user', fn () => Auth::user())->name('user');
     Route::post('/photos', 'PhotoController@create')->name('photo.create');
+    Route::get('/photos', 'PhotoController@create')->name('photo.index');
     Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 });
