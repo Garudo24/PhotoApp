@@ -45,9 +45,8 @@ class PhotoControllerTest extends TestCase
     public function index_写真一覧のJSONデータが取得できる()
     {
         factory(Photo::class, 5)->create();
-
         $response = $this->json('GET', route('photo.index'));
 
-        $response->assertJsonCount(5);
+        $response->assertJsonCount(5, 'data');
     }
 }
