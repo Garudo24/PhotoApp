@@ -20,7 +20,7 @@ class PhotoControllerTest extends TestCase
     }
 
     /** @test */
-    public function should_ステータス201が返る()
+    public function create_ステータス201が返る()
     {
         Storage::fake('s3');
 
@@ -30,5 +30,25 @@ class PhotoControllerTest extends TestCase
             ]);
 
         $response->assertStatus(201);
+    }
+
+    /** @test */
+    public function index_ステータス200が返る()
+    {
+        $response = $this->actingAs($this->user)
+            ->json('GET', route('photo.index'));
+
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function index_写真一覧のJSONデータが取得できる()
+    {
+        factory(Photo::class, 5)->create();
+
+        $response = $this->actingAs($this->user)
+            ->json('GET', route('photo.index'));
+
+        $response->assertJsonCount(5);
     }
 }
