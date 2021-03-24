@@ -15,7 +15,7 @@ class Photo extends Model
     ];
     /** JSONに含める属性 */
     protected $visible = [
-        'id', 'owner', 'url',
+        'id', 'user', 'url',
     ];
 
     const ID_LENGTH = 12;
@@ -29,7 +29,7 @@ class Photo extends Model
         }
     }
 
-    public function owner()
+    public function user()
     {
         return $this->belongsTo('App\User', 'user_id', 'id', 'users');
     }
