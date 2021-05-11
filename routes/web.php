@@ -13,8 +13,6 @@
 
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/{any?}', fn () => view('index'))->where('any', '.+');
-
 Route::group(['middleware' => 'guest'], function () {
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
     Route::post('/login', 'Auth\LoginController@login')->name('login');
@@ -23,6 +21,8 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/user', fn () => Auth::user())->name('user');
     Route::post('/photos', 'PhotoController@create')->name('photo.create');
-    Route::get('/photos', 'PhotoController@create')->name('photo.index');
     Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 });
+
+Route::get('/photos', 'PhotoController@index')->name('photo.index');
+Route::get('/{any?}', fn () => view('index'))->where('any', '.+');
