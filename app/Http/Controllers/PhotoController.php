@@ -7,10 +7,15 @@ use App\Models\Photo;
 
 class PhotoController extends Controller
 {
-    public function __construct()
+    /**
+     * 写真一覧
+     */
+    public function index()
     {
-        // 認証が必要
-        $this->middleware('auth')->except(['index']);
+        $photos = Photo::with(['user'])
+            ->orderBy(Photo::CREATED_AT, 'desc')->paginate();
+
+        return $photos;
     }
 
     /**
@@ -21,16 +26,5 @@ class PhotoController extends Controller
     public function create(StorePhoto $request)
     {
         return response('', 201);
-    }
-
-    /**
-     * 写真一覧
-     */
-    public function index()
-    {
-        $photos = Photo::with(['owner'])
-            ->orderBy(Photo::CREATED_AT, 'desc')->paginate();
-
-        return $photos;
     }
 }
