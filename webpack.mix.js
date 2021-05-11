@@ -16,4 +16,5 @@ mix.browserSync({
     open: false
 })
     .js('resources/js/app.js', 'public/js')
+    .vue()
     .version()
