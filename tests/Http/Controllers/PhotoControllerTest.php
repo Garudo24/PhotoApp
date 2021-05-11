@@ -35,18 +35,15 @@ class PhotoControllerTest extends TestCase
     /** @test */
     public function index_ステータス200が返る()
     {
-        $response = $this->actingAs($this->user)
-            ->json('GET', route('photo.index'));
-
+        $response = $this->json('GET', route('photo.index'));
         $response->assertStatus(200);
     }
 
     /** @test */
     public function index_写真一覧のJSONデータが取得できる()
     {
-        factory(Photo::class, 5)->create();
+        $this->user->photos()->saveMany(factory(Photo::class, 5)->make());
         $response = $this->json('GET', route('photo.index'));
-
         $response->assertJsonCount(5, 'data');
     }
 }
