@@ -5,9 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePhoto;
 use App\Models\Photo;
 use App\UseCases\PhotoPostingUseCase;
-use Illuminate\Http\File;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
@@ -31,9 +28,8 @@ class PhotoController extends Controller
      */
     public function create(StorePhoto $request, PhotoPostingUseCase $usecase)
     {
-        $photo = new Photo();
-        $file = new File($request->photo);
-        $usecase->execute(Auth::id(), $file);
+        $uploaded_file = $request->file('photo');
+        $usecase->execute($uploaded_file);
         return response('', 201);
     }
 
