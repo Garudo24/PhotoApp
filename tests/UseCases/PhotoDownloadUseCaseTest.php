@@ -3,6 +3,7 @@
 namespace Tests\UseCases;
 
 use App\Models\Photo;
+use App\Models\User;
 use App\UseCases\PhotoDownloadUseCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
@@ -22,24 +23,37 @@ class PhotoDownloadUseCaseTest extends TestCase
     {
         parent::setUp();
         Storage::fake('s3');
+
         $this->download_file = UploadedFile::fake()->image('test_image.jpg');
-        $this->photo = new Photo();
-        $this->photo->filename = $this->photo->id . $this->download_file->extension();
+        $photo = new Photo();
+        $photo->user_id = factory(User::class)->create()->id;
+        $photo->filename = $photo->id . $this->download_file->extension();
+        $photo->save();
+
+        $this->photo = Photo::first();
         $this->usecase = new PhotoDownloadUseCase();
     }
 
     /** @test */
-    public function DBに登録されたfilenameでS3からファイルをダウンロードできる()
+    public function DBに登録されたphoto_idでS3からファイルをダウンロードできる()
     {
         Storage::cloud()->putFileAs('', $this->download_file, $this->photo->filename);
-        $download_file = $this->usecase->execute($this->photo->filename);
+        $download_file = $this->usecase->execute($this->photo->id);
         $this->assertNotNull($download_file);
     }
 
     /** @test */
-    public function DBに登録されたfilenameがS3にない場合nullを返す()
+    public function 値が返される場合ファイル名も返される()
     {
-        $download_file = $this->usecase->execute($this->photo->filename);
+        Storage::cloud()->putFileAs('', $this->download_file, $this->photo->filename);
+        $download_file = $this->usecase->execute($this->photo->id);
+        $this->assertEquals($this->photo->filename, $download_file['file_name']);
+    }
+
+    /** @test */
+    public function DBに登録されたidがS3にない場合nullを返す()
+    {
+        $download_file = $this->usecase->execute($this->photo->id);
         $this->assertNull($download_file);
     }
 }
