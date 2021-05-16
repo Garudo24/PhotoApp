@@ -82,7 +82,7 @@ export default {
 
       const formData = new FormData();
       formData.append("photo", this.photo);
-      const response = await axios.post("/api/photos", formData);
+      const response = await axios.post("/photos", formData);
 
       this.loading = false;
 

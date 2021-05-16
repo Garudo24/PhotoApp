@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Storage;
 
 class PhotoPostingUseCase
 {
-    public function execute($user_id, $image_file)
+    public function execute($upload_photo)
     {
-        Storage::cloud()->putFileAs('', $image_file, $image_file->name);
+        $photo = new Photo();
+        $photo->filename = $photo->id . '.' . $upload_photo->extension();
+        Storage::cloud()->putFileAs('', $upload_photo, $photo->filename);
 
-        DB::transaction(function () use ($user_id, $image_file) {
-            Photo::create([
-                'user_id' => $user_id,
-                'filename' => $image_file->name
-            ]);
+        DB::transaction(function () use ($photo) {
+            Auth::user()->photos()->save($photo);
         });
     }
 }

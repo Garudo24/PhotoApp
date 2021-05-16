@@ -7,6 +7,7 @@ use App\Models\User;
 use App\UseCases\PhotoPostingUseCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -31,8 +32,9 @@ class PhotoPostingUseCaseTest extends TestCase
     {
         $user = factory(User::class)->create();
         $this->actingAs($user);
-        $this->usecase->execute($user->id, $this->image_file);
-        Storage::cloud()->assertExists($this->image_file->name);
+        $this->usecase->execute($this->image_file);
+
+        Storage::cloud()->assertExists(Auth::user()->photos()->first()->filename);
     }
 
     /** @test */
@@ -40,7 +42,7 @@ class PhotoPostingUseCaseTest extends TestCase
     {
         $user = factory(User::class)->create();
         $this->actingAs($user);
-        $this->usecase->execute($user->id, $this->image_file);
+        $this->usecase->execute($this->image_file);
         $this->assertCount(1, Photo::get());
     }
 
@@ -49,7 +51,7 @@ class PhotoPostingUseCaseTest extends TestCase
     {
         $user = factory(User::class)->create();
         $this->actingAs($user);
-        $this->usecase->execute($user->id, $this->image_file);
+        $this->usecase->execute($this->image_file);
         $this->assertRegExp('/^[0-9a-zA-Z-_]{12}$/', Photo::first()->id);
     }
 }
