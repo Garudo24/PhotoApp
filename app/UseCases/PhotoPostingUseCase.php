@@ -12,7 +12,7 @@ class PhotoPostingUseCase
     public function execute($upload_photo)
     {
         $photo = new Photo();
-        $photo->filename = $photo->id . $upload_photo->extension();
+        $photo->filename = $photo->id . '.' . $upload_photo->extension();
         Storage::cloud()->putFileAs('', $upload_photo, $photo->filename);
 
         DB::transaction(function () use ($photo) {
