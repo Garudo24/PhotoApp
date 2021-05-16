@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePhoto;
 use App\Models\Photo;
+use App\UseCases\PhotoDownloadUseCase;
 use App\UseCases\PhotoPostingUseCase;
-use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
 {
@@ -34,23 +34,24 @@ class PhotoController extends Controller
     }
 
     /**
- * 写真ダウンロード
- * @param Photo $photo
- * @return \Illuminate\Http\Response
- */
-    public function download(Photo $photo)
+     * 写真ダウンロード
+     * @param String $photo
+     * @return \Illuminate\Http\Response
+     */
+    public function download(String $photo_id, PhotoDownloadUseCase $usecase)
     {
+        $download_file = $usecase->execute($photo_id);
         // 写真の存在チェック
-        if (! Storage::cloud()->exists($photo->filename)) {
+        if (is_null($download_file)) {
             abort(404);
         }
 
-        $disposition = 'attachment; filename="' . $photo->filename . '"';
+        $disposition = 'attachment; filename="' . $download_file['file_name'] . '"';
         $headers = [
-        'Content-Type' => 'application/octet-stream',
-        'Content-Disposition' => $disposition,
-    ];
+            'Content-Type' => 'application/octet-stream',
+            'Content-Disposition' => $disposition,
+        ];
 
-        return response(Storage::cloud()->get($photo->filename), 200, $headers);
+        return response($download_file['file'], 200, $headers);
     }
 }
