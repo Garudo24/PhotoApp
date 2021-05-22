@@ -4,13 +4,13 @@
       <img
         class="photo__image"
         :src="item.url"
-        :alt="`Photo by ${item.owner.name}`"
+        :alt="`Photo by ${item.user.name}`"
       />
     </figure>
     <RouterLink
       class="photo__overlay"
       :to="`/photos/${item.id}`"
-      :title="`View the photo by ${item.owner.name}`"
+      :title="`View the photo by ${item.user.name}`"
     >
       <div class="photo__controls">
         <button class="photo__action photo__action--like" title="Like photo">
@@ -26,7 +26,7 @@
         </a>
       </div>
       <div class="photo__username">
-        {{ item.owner.name }}
+        {{ item.user.name }}
       </div>
     </RouterLink>
   </div>
