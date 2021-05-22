@@ -15,7 +15,12 @@ class Photo extends Model
     ];
     /** JSONに含める属性 */
     protected $visible = [
-        'id', 'user', 'url',
+        'id', 'owner', 'url',
+    ];
+
+    /** JSONに含める属性 */
+    protected $appends = [
+        'url',
     ];
 
     const ID_LENGTH = 12;
