@@ -18,6 +18,11 @@ class Photo extends Model
         'id', 'user', 'url',
     ];
 
+    /** JSONに含める属性 */
+    protected $appends = [
+        'url',
+    ];
+
     const ID_LENGTH = 12;
 
     public function __construct(array $attributes = [])
