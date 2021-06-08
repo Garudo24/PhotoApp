@@ -34,7 +34,7 @@ import { OK } from "../util";
 
 export default {
   props: {
-    id: {
+    photo_id: {
       type: String,
       required: true,
     },
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     async fetchPhoto() {
-      const response = await axios.get(`/api/photos/${this.id}`);
+      const response = await axios.get(`/photos/${this.photo_id}`);
 
       if (response.status !== OK) {
         this.$store.commit("error/setCode", response.status);
