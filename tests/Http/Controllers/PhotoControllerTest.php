@@ -83,7 +83,7 @@ class PhotoControllerTest extends TestCase
         factory(Photo::class)->create();
         $photo = Photo::first();
         $response = $this->json('GET', route('photo.show', [
-            'id' => $photo->id,
+            'photo_id' => $photo->id,
         ]));
 
         $response->assertStatus(200);
@@ -95,15 +95,15 @@ class PhotoControllerTest extends TestCase
         factory(Photo::class)->create();
         $photo = Photo::first();
         $response = $this->json('GET', route('photo.show', [
-            'id' => $photo->id,
+            'photo_id' => $photo->id,
         ]));
 
         $response->assertJsonFragment(
             [
                 'id' => $photo->id,
                 'url' => $photo->url,
-                'owner' => [
-                    'name' => $photo->owner->name,
+                'user' => [
+                    'name' => $photo->user->name,
                 ],
             ]
         );
