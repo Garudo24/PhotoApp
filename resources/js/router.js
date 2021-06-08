@@ -19,7 +19,7 @@ const routes = [
         }
     },
     {
-        path: '/photos/:id',
+        path: '/photos/:photo_id',
         component: PhotoDetail,
         props: true
     },

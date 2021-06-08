@@ -54,4 +54,9 @@ class PhotoController extends Controller
 
         return response($download_file['file'], 200, $headers);
     }
+
+    public function show(String $photo_id)
+    {
+        return Photo::where('id', $photo_id)->with(['user'])->firstOrFail();
+    }
 }
