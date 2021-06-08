@@ -76,4 +76,36 @@ class PhotoControllerTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /** @test */
+    public function should_ステータスコード200が返る()
+    {
+        factory(Photo::class)->create();
+        $photo = Photo::first();
+        $response = $this->json('GET', route('photo.show', [
+            'id' => $photo->id,
+        ]));
+
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function should_詳細写真のJSONを返却する()
+    {
+        factory(Photo::class)->create();
+        $photo = Photo::first();
+        $response = $this->json('GET', route('photo.show', [
+            'id' => $photo->id,
+        ]));
+
+        $response->assertJsonFragment(
+            [
+                'id' => $photo->id,
+                'url' => $photo->url,
+                'owner' => [
+                    'name' => $photo->owner->name,
+                ],
+            ]
+        );
+    }
 }
