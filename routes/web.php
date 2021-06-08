@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('/photos', 'PhotoController@index')->name('photo.index');
+Route::get('/photos/{photo_id}', 'PhotoController@show')->name('photo.show');
 Route::get('/photos/{photo_id}/download', 'PhotoController@download');
 
 Route::get('/{any?}', fn () => view('index'))->where('any', '.+');
