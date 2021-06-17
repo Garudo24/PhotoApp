@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Model\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -37,6 +38,11 @@ class Photo extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id', 'users');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function getUrlAttribute()
