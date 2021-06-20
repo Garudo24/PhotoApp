@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Model\Comment;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
