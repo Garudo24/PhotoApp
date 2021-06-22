@@ -24,6 +24,8 @@ class Photo extends Model
         'url',
     ];
 
+    public $incrementing = false;
+
     const ID_LENGTH = 12;
 
     public function __construct(array $attributes = [])
