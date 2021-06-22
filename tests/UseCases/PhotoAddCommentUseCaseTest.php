@@ -22,9 +22,9 @@ class PhotoAddCommentUseCaseTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->photo = factory(Photo::class)->create([
+        $this->photo = $this->user->photos()->save(factory(Photo::class)->make([
             'user_id' => $this->user->id
-        ]);
+        ]));
         $this->usecase = new PhotoAddCommentUseCase();
     }
 
