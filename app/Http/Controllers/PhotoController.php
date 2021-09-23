@@ -9,6 +9,7 @@ use App\UseCases\PhotoAddCommentUseCase;
 use App\UseCases\PhotoDownloadUseCase;
 use App\UseCases\PhotoPostingUseCase;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PhotoController extends Controller
 {
@@ -60,17 +61,13 @@ class PhotoController extends Controller
 
     public function show(String $photo_id)
     {
-        return Photo::where('id', $photo_id)->with(['user'])->firstOrFail();
+        return Photo::where('id', $photo_id)->with(['user', 'comments.user'])->firstOrFail();
     }
 
-    /**
-     * コメント投稿
-     * @param Photo $photo
-     * @param StoreComment $request
-     * @return \Illuminate\Http\Response
-     */
     public function addComment(String $photo_id, StoreComment $request, PhotoAddCommentUseCase $usecase)
     {
+        Log::info('ここきた');
+        Log::info($photo_id);
         return response($usecase->execute(Auth::id(), $photo_id, $request->input('content')), 201);
     }
 }
