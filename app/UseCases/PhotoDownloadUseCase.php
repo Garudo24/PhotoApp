@@ -17,6 +17,7 @@ class PhotoDownloadUseCase
         if (!Storage::cloud()->exists($photo->filename)) {
             return null;
         }
+
         return [
             'file' => Storage::cloud()->get($photo->filename),
             'file_name' => $photo->filename
