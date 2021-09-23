@@ -9,7 +9,6 @@ use App\UseCases\PhotoAddCommentUseCase;
 use App\UseCases\PhotoDownloadUseCase;
 use App\UseCases\PhotoPostingUseCase;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class PhotoController extends Controller
 {
@@ -66,8 +65,6 @@ class PhotoController extends Controller
 
     public function addComment(String $photo_id, StoreComment $request, PhotoAddCommentUseCase $usecase)
     {
-        Log::info('ここきた');
-        Log::info($photo_id);
         return response($usecase->execute(Auth::id(), $photo_id, $request->input('content')), 201);
     }
 }

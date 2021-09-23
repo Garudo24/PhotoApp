@@ -5,7 +5,6 @@ namespace App\UseCases;
 use App\Models\Comment;
 use App\Models\Photo;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class PhotoAddCommentUseCase
 {
@@ -17,8 +16,6 @@ class PhotoAddCommentUseCase
             'comment_text' => $comment_text
         ];
         $comment = new Comment();
-        Log::info('new Comment実行後');
-        Log::info($comment);
 
         DB::transaction(function () use ($comment, $arguments) {
             $comment->user_id = $arguments['user_id'];
