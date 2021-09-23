@@ -21,7 +21,6 @@ class PhotoAddCommentUseCase
         Log::info($comment);
 
         DB::transaction(function () use ($comment, $arguments) {
-            $comment = new Comment();
             $comment->user_id = $arguments['user_id'];
             $comment->photo_id = $arguments['photo_id'];
             $comment->content = $arguments['comment_text'];
