@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreComment;
 use App\Http\Requests\StorePhoto;
 use App\Models\Photo;
+use App\UseCases\PhotoAddCommentUseCase;
 use App\UseCases\PhotoDownloadUseCase;
 use App\UseCases\PhotoPostingUseCase;
+use Illuminate\Support\Facades\Auth;
 
 class PhotoController extends Controller
 {
@@ -57,6 +60,11 @@ class PhotoController extends Controller
 
     public function show(String $photo_id)
     {
-        return Photo::where('id', $photo_id)->with(['user'])->firstOrFail();
+        return Photo::where('id', $photo_id)->with(['user', 'comments.user'])->firstOrFail();
+    }
+
+    public function addComment(String $photo_id, StoreComment $request, PhotoAddCommentUseCase $usecase)
+    {
+        return response($usecase->execute(Auth::id(), $photo_id, $request->input('content')), 201);
     }
 }

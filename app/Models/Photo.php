@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -15,13 +16,15 @@ class Photo extends Model
     ];
     /** JSONに含める属性 */
     protected $visible = [
-        'id', 'user', 'url',
+        'id', 'user', 'url', 'comments',
     ];
 
     /** JSONに含める属性 */
     protected $appends = [
         'url',
     ];
+
+    public $incrementing = false;
 
     const ID_LENGTH = 12;
 
@@ -37,6 +40,11 @@ class Photo extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id', 'users');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function getUrlAttribute()

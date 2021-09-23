@@ -82,7 +82,7 @@ class PhotoControllerTest extends TestCase
     {
         factory(Photo::class)->create();
         $photo = Photo::first();
-        $response = $this->json('GET', route('photo.show', [
+        $response = $this->actingAs($this->user)->json('GET', route('photo.show', [
             'photo_id' => $photo->id,
         ]));
 
@@ -94,7 +94,7 @@ class PhotoControllerTest extends TestCase
     {
         factory(Photo::class)->create();
         $photo = Photo::first();
-        $response = $this->json('GET', route('photo.show', [
+        $response = $this->actingAs($this->user)->json('GET', route('photo.show', [
             'photo_id' => $photo->id,
         ]));
 
@@ -107,5 +107,18 @@ class PhotoControllerTest extends TestCase
                 ],
             ]
         );
+    }
+
+    /** @test */
+    public function addComment_ステータスコード201が返る()
+    {
+        factory(Photo::class)->create();
+        $photo = Photo::first();
+        $content = 'テストコメント';
+        $response = $this->actingAs($this->user)->json('POST', route('photo.comment', [
+            'photo_id' => $photo->id,
+        ]), compact('content'));
+
+        $response->assertStatus(201);
     }
 }
