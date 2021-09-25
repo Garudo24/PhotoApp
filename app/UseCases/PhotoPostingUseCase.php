@@ -18,5 +18,7 @@ class PhotoPostingUseCase
         DB::transaction(function () use ($photo) {
             Auth::user()->photos()->save($photo);
         });
+
+        return $photo->id;
     }
 }

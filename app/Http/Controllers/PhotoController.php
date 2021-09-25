@@ -32,8 +32,8 @@ class PhotoController extends Controller
     public function create(StorePhoto $request, PhotoPostingUseCase $usecase)
     {
         $uploaded_file = $request->file('photo');
-        $usecase->execute($uploaded_file);
-        return response('', 201);
+        $add_photo_id = $usecase->execute($uploaded_file);
+        return response(['add_photo_id' => $add_photo_id], 201);
     }
 
     /**
