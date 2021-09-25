@@ -33,6 +33,19 @@ class PhotoControllerTest extends TestCase
     }
 
     /** @test */
+    public function create_追加された写真のIDがjsonデータに含まれている()
+    {
+        Storage::fake('s3');
+
+        $response = $this->actingAs($this->user)
+            ->json('POST', route('photo.create'), [
+                'photo' => UploadedFile::fake()->image('photo.jpg')
+            ]);
+
+        $this->assertNotNull($response->json()['add_photo_id']);
+    }
+
+    /** @test */
     public function index_ステータス200が返る()
     {
         $response = $this->json('GET', route('photo.index'));
