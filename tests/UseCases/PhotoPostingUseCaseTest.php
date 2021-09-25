@@ -54,4 +54,13 @@ class PhotoPostingUseCaseTest extends TestCase
         $this->usecase->execute($this->image_file);
         $this->assertRegExp('/^[0-9a-zA-Z-_]{12}$/', Photo::first()->id);
     }
+
+    /** @test */
+    public function photoテーブルに追加されたIDを返す()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        $id = $this->usecase->execute($this->image_file);
+        $this->assertEquals(Photo::first()->id, $id);
+    }
 }
