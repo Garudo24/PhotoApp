@@ -6,6 +6,7 @@ use App\Http\Requests\StoreComment;
 use App\Http\Requests\StorePhoto;
 use App\Models\Photo;
 use App\UseCases\PhotoAddCommentUseCase;
+use App\UseCases\PhotoAddLikeUseCase;
 use App\UseCases\PhotoDownloadUseCase;
 use App\UseCases\PhotoPostingUseCase;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,8 @@ class PhotoController extends Controller
 
     /**
      * 写真ダウンロード
-     * @param String $photo
+     * @param String $photo_id
+     * @param PhotoDownloadUseCase $usecase
      * @return \Illuminate\Http\Response
      */
     public function download(String $photo_id, PhotoDownloadUseCase $usecase)
@@ -58,13 +60,45 @@ class PhotoController extends Controller
         return response($download_file['file'], 200, $headers);
     }
 
+    /**
+     * 写真詳細
+     * @param String $photo_id
+     * @return App\Models\Photo
+     */
     public function show(String $photo_id)
     {
         return Photo::where('id', $photo_id)->with(['user', 'comments.user'])->firstOrFail();
     }
 
+    /**
+     * コメント追加
+     * @param String $photo_id
+     * @param StoreComment $request
+     * @param PhotoDownloadUseCase $usecase
+     * @return \Illuminate\Http\Response
+     */
     public function addComment(String $photo_id, StoreComment $request, PhotoAddCommentUseCase $usecase)
     {
         return response($usecase->execute(Auth::id(), $photo_id, $request->input('content')), 201);
+    }
+
+    /**
+     * いいね
+     * @param string $photo_id
+     * @return array
+     */
+    public function like(string $photo_id, PhotoAddLikeUseCase $usecase)
+    {
+        return;
+    }
+
+    /**
+     * いいね解除
+     * @param string $id
+     * @return array
+     */
+    public function unlike(string $photo_id)
+    {
+        return;
     }
 }
