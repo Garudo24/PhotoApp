@@ -134,4 +134,24 @@ class PhotoControllerTest extends TestCase
 
         $response->assertStatus(201);
     }
+
+    /** @test */
+    public function like_ステータスコード200が返る()
+    {
+        $photo = factory(Photo::class)->create();
+        $param = ['photo_id' => $photo->id];
+        $response = $this->actingAs($this->user)->json('PUT', route('photo.like', $param));
+
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function unlike_ステータスコード200が返る()
+    {
+        $photo = factory(Photo::class)->create();
+        $param = ['photo_id' => $photo->id];
+        $response = $this->actingAs($this->user)->json('PUT', route('photo.unlike', $param));
+
+        $response->assertStatus(200);
+    }
 }
