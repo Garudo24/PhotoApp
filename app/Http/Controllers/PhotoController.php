@@ -18,7 +18,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        $photos = Photo::with(['user'])
+        $photos = Photo::with(['user', 'likes'])
             ->orderBy(Photo::CREATED_AT, 'desc')->paginate();
 
         return $photos;
@@ -67,7 +67,7 @@ class PhotoController extends Controller
      */
     public function show(String $photo_id)
     {
-        return Photo::where('id', $photo_id)->with(['user', 'comments.user'])->firstOrFail();
+        return Photo::where('id', $photo_id)->with(['user', 'comments.user', 'likes'])->firstOrFail();
     }
 
     /**
@@ -89,7 +89,7 @@ class PhotoController extends Controller
      */
     public function like(string $photo_id, PhotoAddLikeUseCase $usecase)
     {
-        return;
+        return response($usecase->execute($photo_id, Auth::id()));
     }
 
     /**
