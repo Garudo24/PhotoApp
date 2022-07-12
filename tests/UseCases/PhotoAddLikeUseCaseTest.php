@@ -56,7 +56,6 @@ class PhotoAddLikeUseCaseTest extends TestCase
     public function すでにいいねを行っている場合nullが返る()
     {
         $photo = factory(Photo::class)->create();
-        factory(Photo::class, 2)->create();
         $this->actingAs($this->user);
         $this->usecase->execute((String)$photo->id, $this->user->id);
         $photo_id = $this->usecase->execute((String)$photo->id, $this->user->id);
