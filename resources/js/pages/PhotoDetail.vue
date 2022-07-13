@@ -12,8 +12,13 @@
       <figcaption>Posted by {{ photo.user.name }}</figcaption>
     </figure>
     <div class="photo-detail__pane">
-      <button class="button button--like" title="Like photo">
-        <i class="icon ion-md-heart"></i>12
+      <button
+        class="button button--like"
+        :class="{ 'button--liked': photo.liked_by_user }"
+        title="Like photo"
+        @click="onLikeClick"
+      >
+        <i class="icon ion-md-heart"></i>{{ photo.likes_count }}
       </button>
       <a
         :href="`/photos/${photo.id}/download`"
@@ -108,6 +113,37 @@ export default {
         this.$store.commit('error/setCode', response.status)
         return false
       }
+    },
+    onLikeClick() {
+      if (!this.isLogin) {
+        alert('いいね機能を使うにはログインしてください。')
+        return false
+      }
+      if (this.photo.liked_by_user) {
+        this.unlike()
+      } else {
+        this.like()
+      }
+    },
+    async like() {
+      const response = await axios.put(`/photos/${this.photo_id}/like`)
+      if (response.status !== OK) {
+        this.$store.commit('error/setCode', response.status)
+        return false
+      }
+      this.photo.likes_count = this.photo.likes_count + 1
+      this.photo.liked_by_user = true
+    },
+    async unlike() {
+      console.log('unlike')
+      console.log(this.photo_id)
+      const response = await axios.delete(`/photos/${this.photo_id}/unlike`)
+      if (response.status !== OK) {
+        this.$store.commit('error/setCode', response.status)
+        return false
+      }
+      this.photo.likes_count = this.photo.likes_count - 1
+      this.photo.liked_by_user = false
     },
   },
   watch: {

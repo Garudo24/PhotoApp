@@ -28,5 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::get('/photos', 'PhotoController@index')->name('photo.index');
+Route::put('/photos/{photo_id}/like', 'PhotoController@like')->name('photo.like');
+Route::delete('/photos/{photo_id}/like', 'PhotoController@unlike')->name('photo.unlike');
 
 Route::get('/{any?}', fn () => view('index'))->where('any', '.+');
