@@ -7,6 +7,7 @@ use App\Http\Requests\StorePhoto;
 use App\Models\Photo;
 use App\UseCases\PhotoAddCommentUseCase;
 use App\UseCases\PhotoAddLikeUseCase;
+use App\UseCases\PhotoDeleteLikeUseCase;
 use App\UseCases\PhotoDownloadUseCase;
 use App\UseCases\PhotoPostingUseCase;
 use Illuminate\Support\Facades\Auth;
@@ -97,8 +98,9 @@ class PhotoController extends Controller
      * @param string $id
      * @return array
      */
-    public function unlike(string $photo_id)
+    public function unlike(string $photo_id, PhotoDeleteLikeUseCase $usecase)
     {
-        return;
+        return response($usecase->execute($photo_id, Auth::id()));
+        ;
     }
 }
