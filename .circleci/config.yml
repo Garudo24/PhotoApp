@@ -58,7 +58,7 @@ jobs:
           command: php artisan migrate
       - run:
           name: unit test
-          command: ./vender/bin/phpunit -c ./phpunit.xml --stderr --log-junit ./test/results/phpunit.xml
+          command: ./vendor/bin/phpunit -c ./phpunit.xml --stderr --log-junit ./test/results/phpunit.xml
       - store_test_results:
           path: ./test-results
 
