@@ -1,21 +1,23 @@
 version: 2.1
 
+references:
+  docker_hub_authentication: &docker_hub_authentication
+    auth:
+      username: $DOCKERHUB_USER
+      password: $DOCKERHUB_PASSWORD
+
 jobs:
   build:
     docker:
       - image: circleci/php:7.4-zts
-        auth:
-          username: garudo24
-          password: $DOCKERHUB_PASSWORD  # コンテキスト/プロジェクト UI 環境変数の参照
+        <<: &docker_hub_authentication
     steps:
       - checkout
       - run: echo "this is the build job"
   test:
     docker:
       - image: circleci/php:7.4-zts
-        auth:
-          username: garudo24
-          password: $DOCKERHUB_PASSWORD  # コンテキスト/プロジェクト UI 環境変数の参照
+        <<: &docker_hub_authentication
     steps:
       - checkout
       - run: echo "this is the test job"
