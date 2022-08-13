@@ -52,7 +52,7 @@ jobs:
           command: mkdir -p ./test-result
       - run:
           name: wait for setup database
-          command: dockeriZe -wait tcp://127.0.0.1:3306 -timeout 1m
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
       - run:
           name: database migration
           command: php artisan migrate
