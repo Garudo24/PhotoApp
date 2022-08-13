@@ -27,6 +27,40 @@ jobs:
     working_directory: ~/workspace
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - composer-cache-v1-{{ .Branch }}-{{ checksum "composer.json"}}
+      - run:
+          name: composer install
+          command: composer install -n --prefer-dist
+      - save_cache:
+          key: composer-cache-v1-{{ .Branch }}-{{ checksum "composer.json" }}
+          paths:
+            - vender
+      - presost_to_workspace:
+          root: ~/workspace
+          paths:
+            - .
+      - run:
+          name: setup for testing
+          command: |
+            sudo apt update
+            sudo apt-get install default-mysql-client
+            sudo docker-php-ext-install pdo_mysql
+      - run:
+          name: make directory
+          command: mkdir -p ./test-result
+      - run:
+          name: wait for setup database
+          command: dockeriZe -wait tcp://127.0.0.1:3306 -timeout 1m
+      - run:
+          name: database migration
+          command: php artisan migrate
+      - run:
+          name: unit test
+          command: ./vender/bin/phpunit -c ./phpunit.xml --stderr --log-junit ./test/results/phpunit.xml
+      - store_test_results:
+          path: ./test-results
 
 # ジョブの実行順の指定
 workflows:
