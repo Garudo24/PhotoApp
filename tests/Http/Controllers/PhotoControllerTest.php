@@ -22,8 +22,6 @@ class PhotoControllerTest extends TestCase
     /** @test */
     public function create_ステータス201が返る()
     {
-        Storage::fake('s3');
-
         $response = $this->actingAs($this->user)
             ->json('POST', route('photo.create'), [
                 'photo' => UploadedFile::fake()->image('photo.jpg')
@@ -35,8 +33,6 @@ class PhotoControllerTest extends TestCase
     /** @test */
     public function create_追加された写真のIDがjsonデータに含まれている()
     {
-        Storage::fake('s3');
-
         $response = $this->actingAs($this->user)
             ->json('POST', route('photo.create'), [
                 'photo' => UploadedFile::fake()->image('photo.jpg')
@@ -63,7 +59,6 @@ class PhotoControllerTest extends TestCase
     /** @test */
     public function download_対象ファイルが見つからない場合は404を返す()
     {
-        Storage::fake('s3');
         factory(Photo::class)->create();
         $photo = Photo::first();
 
@@ -76,7 +71,6 @@ class PhotoControllerTest extends TestCase
     /** @test */
     public function download_ファイルをダウンロードできた場合はステータス200を返す()
     {
-        Storage::fake('s3');
         $download_file = UploadedFile::fake()->image('test_image.jpg');
         $this->user->photos()->save(factory(Photo::class)->make());
         $photo = Photo::first();

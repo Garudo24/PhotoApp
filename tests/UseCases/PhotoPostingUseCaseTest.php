@@ -21,7 +21,6 @@ class PhotoPostingUseCaseTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        Storage::fake('s3');
         $this->usecase = new PhotoPostingUseCase();
         $this->image_file = UploadedFile::fake()->image('test_image.jpg');
     }

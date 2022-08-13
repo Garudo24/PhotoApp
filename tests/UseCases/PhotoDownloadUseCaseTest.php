@@ -22,7 +22,6 @@ class PhotoDownloadUseCaseTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        Storage::fake('s3');
 
         $this->download_file = UploadedFile::fake()->image('test_image.jpg');
         $photo = new Photo();
