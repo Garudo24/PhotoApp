@@ -23,7 +23,7 @@ jobs:
           MYSQL_USER: test_user
           MYSQL_PASSWORD: test_password
           MYSQL_DATABASE: photo_sharing
-          MYSQL_ALLOW_EMPTY_oASSWORD: yes
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
     working_directory: ~/workspace
     steps:
       - checkout
