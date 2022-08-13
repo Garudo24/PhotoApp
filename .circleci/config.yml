@@ -67,7 +67,7 @@ workflows:
   build-test:
     jobs:
       - build-and-test:
-          filtesrs:
+          filters:
             branches:
               ignore:
                 - main
