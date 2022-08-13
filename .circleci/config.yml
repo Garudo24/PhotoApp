@@ -7,13 +7,6 @@ references:
       password: $DOCKERHUB_PASSWORD
 
 jobs:
-  build:
-    docker:
-      - image: circleci/php:7.4-zts
-        <<: *docker_hub_authentication
-    steps:
-      - checkout
-      - run: echo "this is the build job"
   build-and-test:
     docker:
       - image: circleci/php:7.4-zts
@@ -35,11 +28,8 @@ jobs:
     steps:
       - checkout
 
-
-
 # ジョブの実行順の指定
 workflows:
-  build_and_test:
+  test:
     jobs:
-      - build
-      - test
+      - build-and-test
