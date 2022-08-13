@@ -37,7 +37,7 @@ jobs:
           key: composer-cache-v1-{{ .Branch }}-{{ checksum "composer.json" }}
           paths:
             - vender
-      - presost_to_workspace:
+      - persist_to_workspace:
           root: ~/workspace
           paths:
             - .
