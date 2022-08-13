@@ -45,7 +45,7 @@ jobs:
           name: setup for testing
           command: |
             sudo apt update
-            sudo apt-get install default-mysql-client
+            sudo apt-get install default-mysql-client libpq-dev
             sudo docker-php-ext-install pdo_mysql
             sudo docker-php-ext-configure gd --with-freetype --with-jpeg
             sudo docker-php-ext-install -j$(nproc) gd
