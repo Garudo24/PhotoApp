@@ -10,14 +10,14 @@ jobs:
   build:
     docker:
       - image: circleci/php:7.4-zts
-        <<: &docker_hub_authentication
+        <<: *docker_hub_authentication
     steps:
       - checkout
       - run: echo "this is the build job"
   test:
     docker:
       - image: circleci/php:7.4-zts
-        <<: &docker_hub_authentication
+        <<: *docker_hub_authentication
     steps:
       - checkout
       - run: echo "this is the test job"
