@@ -64,6 +64,10 @@ jobs:
 
 # ジョブの実行順の指定
 workflows:
-  test:
+  build-test:
     jobs:
-      - build-and-test
+      - build-and-test:
+          filtesrs:
+            branches:
+              ignore:
+                - main
